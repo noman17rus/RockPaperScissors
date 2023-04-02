@@ -3,10 +3,15 @@ import java.util.*
 val options = arrayOf("Камень", "Ножницы", "Бумага")
 
 fun main() {
-    val gameChose = getGameChose(options)
-    println("Игра сделала свой выбор, теперь Ваш ход: ")
-    val playerChose = getPlayerChose(options)
-    getResult(gameChose, playerChose)
+    var isUserTryAgain = true
+    var userChose: String = ""
+    while (isUserTryAgain){
+        if(userChose == "" || userChose == "Да") {
+            startGame()
+            val userInput = readln().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            userChose = userInput
+        } else isUserTryAgain = false
+    }
 }
 
 fun getGameChose(optionParam: Array<String>) = optionParam[(Math.random() * optionParam.size).toInt()]
@@ -40,5 +45,12 @@ fun getResult(gameChose: String, userChose: String) {
         (userChose == "Бумага" && gameChose == "Ножницы")
     ) result = "Вы победили"
     else result = "Вы проиграли"
-    println("Вы выбрали $userChose. Компьютер выбрал $gameChose. $result")
+    println("Вы выбрали $userChose. Компьютер выбрал $gameChose. $result. Желаете сыграть еще раз?")
+}
+
+fun startGame(){
+    val gameChose = getGameChose(options)
+    println("Игра сделала свой выбор, теперь Ваш ход: ")
+    val playerChose = getPlayerChose(options)
+    getResult(gameChose, playerChose)
 }
